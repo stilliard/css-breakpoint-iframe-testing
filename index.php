@@ -289,6 +289,11 @@ if ($html != '') {
         background-color: #EEE;
     }
 
+    /* jquery ui resizeable handle, give it a background so it's more obvious here */
+    .ui-icon-gripsmall-diagonal-se {
+        background-color: #ECEFF1;
+    }
+
     /*
     Better box sizing by default on all elements
     http://css-tricks.com/international-box-sizing-awareness-day/
