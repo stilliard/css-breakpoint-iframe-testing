@@ -251,7 +251,7 @@ if ($html != '') {
     }
     .iframe-block iframe {
         width: 100%;
-        height: calc(100% - 20px);
+        height: calc(100% - 40px);
     }
 
     .url-form {
