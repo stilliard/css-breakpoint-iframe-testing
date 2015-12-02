@@ -247,16 +247,20 @@ if ($html != '') {
         float: left;
     }
     .iframe-block-title {
-        height: 20px;
+        padding: 0.5em;
+        background-color: #ECEFF1;
+        text-align: center;
     }
     .iframe-block iframe {
         width: 100%;
-        height: calc(100% - 40px);
+        height: calc(100% - 50px);
     }
 
     .url-form {
-        background: #CCC;
+        background: #607D8B;
         padding: 1em;
+        font-weight: bold;
+        color: #FFF;
     }
     .url-form label,
     .url-form input,
@@ -271,7 +275,18 @@ if ($html != '') {
         width: 70%;
     }
     .url-form button {
-        width: 20%;
+        width: 18%;
+        margin-left: 2%;
+        cursor: pointer;
+    }
+    .url-form input,
+    .url-form button {
+        background-color: #FFF;
+        border: 1px solid #455A64;
+        padding: 0.5em;
+    }
+    .url-form button:active {
+        background-color: #EEE;
     }
 
     /*
