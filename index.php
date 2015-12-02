@@ -199,7 +199,7 @@ if ($html != '') {
     body {
         font: <?php echo $basePxFontSize; ?>px/1.36 sans-serif;
     }
-    html, body { height: 100%; }
+    html, body { height: 100%; margin: 0; padding: 0; }
     .iframe-blocks-container {
         width: 100%;
         overflow: auto;
@@ -207,18 +207,25 @@ if ($html != '') {
     .iframe-blocks-container-inner {
         width: 10000px;
     }
-    .iframe-blocks-container,
+    .iframe-blocks-container {
+        height: calc(100% - 60px);
+    }
     .iframe-blocks-container-inner,
-    .iframe-block,
-    .iframe-block iframe {
-        height: calc(100% - 40px);
+    .iframe-block {
+        height: calc(100% - 10px);
+        margin: 0;
+        padding: 0;
     }
     .iframe-block {
         margin-right: 1em;
         float: left;
     }
+    .iframe-block-title {
+        height: 20px;
+    }
     .iframe-block iframe {
         width: 100%;
+        height: calc(100% - 20px);
     }
 
     .url-form {
