@@ -3,7 +3,7 @@
 function getUrl()
 {
     // default url
-    $url = 'http://www.riverthoughtfulfishingbooks.co.uk/';
+    $url = 'http://blog.stapps.io/';
     // Posted valid URL?
     if (isset($_GET['url'])
         && is_string($_GET['url'])
@@ -12,9 +12,28 @@ function getUrl()
     }
     return $url;
 }
+function tmpCookieFile($remove=false)
+{
+    static $ckfile;
+    if ( ! $ckfile) {
+        $ckfile = tempnam ("/tmp", "CURLCOOKIE");
+    }
+    if ( ! $remove) {
+        return $ckfile;
+    } else {
+        unlink($ckfile); // remove tmp file
+    }
+}
 function request($url)
 {
-    return file_get_contents($url);
+    $ckfile = tmpCookieFile();
+    $ch = curl_init ($url);
+    curl_setopt ($ch, CURLOPT_COOKIEJAR, $ckfile);
+    curl_setopt ($ch, CURLOPT_COOKIEFILE, $ckfile);
+    curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
+    $output = curl_exec ($ch);
+    curl_close($ch);
+    return $output;
 }
 function htmlToDomDoc($html)
 {
