@@ -221,6 +221,7 @@ if ($html != '') {
   <meta name="description" content="Test your site at different responsive css breakpoints / media queries">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.css">
+
   <style>
     body {
         font: <?php echo $basePxFontSize; ?>px/1.36 sans-serif;
@@ -246,6 +247,10 @@ if ($html != '') {
         margin-right: 1em;
         float: left;
     }
+    .iframe-block.slider {
+        margin: auto;
+        float: none;
+    }
     .iframe-block-title {
         padding: 0.5em;
         background-color: #ECEFF1;
@@ -254,6 +259,10 @@ if ($html != '') {
     .iframe-block iframe {
         width: 100%;
         height: calc(100% - 50px);
+    }
+    .iframe-block.slider iframe {
+        width: 100%;
+        height: 100%;
     }
 
     .url-form {
@@ -271,11 +280,11 @@ if ($html != '') {
     .url-form label {
         width: 10%;
     }
-    .url-form input {
-        width: 70%;
+    .url-form #url {
+        width: 50%;
     }
     .url-form button {
-        width: 18%;
+        width: 5%;
         margin-left: 2%;
         cursor: pointer;
     }
@@ -322,7 +331,14 @@ if ($html != '') {
     .clearfix {
     *zoom: 1; /* For IE 6/7 (trigger hasLayout) */
     }
+
+    .bx-viewport, .bx-wrapper{
+        height:100% !important;
+    }
   </style>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 
 </head>
 <body>
@@ -330,6 +346,12 @@ if ($html != '') {
     <form class="url-form clearfix" method="get">
         <label for="url">URL:</label>
         <input type="url" name="url" id="url" value="<?php echo $url; ?>">
+        <label>
+            <input type="radio" name="show" value="slider" <?php echo !isset($_GET['show']) || $_GET['show'] == 'slider' ? 'checked' : ''; ?>>Show Slider
+        </label>
+        <label>
+            <input type="radio" name="show" value="all" <?php echo isset($_GET['show']) && $_GET['show'] == 'all' ? 'checked' : ''; ?>>Show All
+        </label>
         <button type="submit">Run</button>
     </form>
 
@@ -337,19 +359,54 @@ if ($html != '') {
         echo '<p><strong>Breakpoints not found for this site, either this site has none or it restricts this tool from running. Please try a similar tool such as https://chrome.google.com/webstore/detail/emmet-review/epejoicbhllgiimigokgjdoijnpaphdp?hl=en</strong></p>';
     } ?>
 
-    <div class="iframe-blocks-container">
-        <div class="iframe-blocks-container-inner">
+    <?php if (!isset($_GET['show']) || $_GET['show'] == 'slider') { ?>
+        <ul class="bxslider">
             <?php foreach ($breakpoints as $breakpoint) { ?>
-            <div class="iframe-block" style="width:<?php echo variBreakpoint($breakpoint, $variAmount); ?>px">
-                <div class="iframe-block-title"><?php echo $breakpoint[0] . ': ' . $breakpoint[1] . mapBreakpointToDevices($breakpoint); ?></div>
-                <iframe src="<?php echo $url; ?>"></iframe>
-            </div>
+                <li>
+                    <div class="iframe-block slider" style="width: <?php echo variBreakpoint($breakpoint, $variAmount); ?>px; height: 550px;">
+                        <div class="iframe-block-title"><?php echo $breakpoint[0] . ': ' . $breakpoint[1] . mapBreakpointToDevices($breakpoint); ?></div>
+                        <iframe src="<?php echo $url; ?>"></iframe>
+                    </div>
+                </li>
             <?php } ?>
-        </div>
-    </div>
+        </ul>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.5/jquery.bxslider.min.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.5/jquery.bxslider.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.5/vendor/jquery.easing.1.3.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.5/vendor/jquery.fitvids.js"></script>
+        <script>
+            (function ($) {
+                var slider = $('.bxslider').bxSlider({
+                    video: true,
+                    useCSS: false,
+                    adaptiveHeight: true
+                });
+
+                $(document).keydown(function (e) {
+                    if (e.keyCode == 39) { // Right arrow 
+                        slider.goToNextSlide();
+                        return false;
+                    } else if (e.keyCode == 37) { // left arrow
+                        slider.goToPrevSlide();
+                        return false;
+                    }
+                });
+            }(jQuery));
+        </script>
+    <?php } else { ?>
+        <div class="iframe-blocks-container">
+            <div class="iframe-blocks-container-inner">
+                <?php foreach ($breakpoints as $breakpoint) { ?>
+                <div class="iframe-block" style="width:<?php echo variBreakpoint($breakpoint, $variAmount); ?>px">
+                    <div class="iframe-block-title"><?php echo $breakpoint[0] . ': ' . $breakpoint[1] . mapBreakpointToDevices($breakpoint); ?></div>
+                    <iframe src="<?php echo $url; ?>"></iframe>
+                </div>
+                <?php } ?>
+            </div>
+        </div>
+    <?php } ?>
+
     <script>
         (function ($) {
             $('.iframe-block').resizable();
