@@ -170,6 +170,32 @@ function variBreakpoint($breakpoint, $variAmount)
         return $size - $variAmount;
     }
 }
+function mapBreakpointToDevices($breakpoint)
+{
+    $size = toPx($breakpoint[1]);
+    $info = '';
+    switch (true) {
+        case ($size < 260):
+            $info = 'very small screen';
+            break;
+        case ($size < 480):
+            $info = 'small/phone screen';
+            break;
+        case ($size < 760):
+            $info = 'tablet/phablet screen';
+            break;
+        case ($size < 960):
+            $info = 'medium/tablet screen';
+            break;
+        case ($size < 1200):
+            $info = 'large/desktop screen';
+            break;
+        case ($size < 2400):
+            $info = 'extra large screen';
+            break;
+    }
+    return ' (' . $info . ')';
+}
 
 // base px font-size
 $basePxFontSize = '13';
@@ -295,7 +321,7 @@ if ($html != '') {
         <div class="iframe-blocks-container-inner">
             <?php foreach ($breakpoints as $breakpoint) { ?>
             <div class="iframe-block" style="width:<?php echo variBreakpoint($breakpoint, $variAmount); ?>px">
-                <div class="iframe-block-title"><?php echo $breakpoint[0] . ': ' . $breakpoint[1]; ?></div>
+                <div class="iframe-block-title"><?php echo $breakpoint[0] . ': ' . $breakpoint[1] . mapBreakpointToDevices($breakpoint); ?></div>
                 <iframe src="<?php echo $url; ?>"></iframe>
             </div>
             <?php } ?>
