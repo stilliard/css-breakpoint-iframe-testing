@@ -32,6 +32,10 @@ function request($url)
     curl_setopt($ch, CURLOPT_COOKIEJAR, $ckfile);
     curl_setopt($ch, CURLOPT_COOKIEFILE, $ckfile);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_MAXREDIRS, 3);
+    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 30);
     $output = curl_exec($ch);
     curl_close($ch);
     return $output;
