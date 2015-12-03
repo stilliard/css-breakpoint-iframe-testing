@@ -350,6 +350,12 @@ if ($html != '') {
     .bx-viewport, .bx-wrapper{
         height:100% !important;
     }
+
+    /* remove spacing border on slider view so the titles are flush with the header form */
+    .bx-wrapper {
+        border-top: 0 !important;
+    }
+
   </style>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -430,7 +436,15 @@ if ($html != '') {
 
     <script>
         (function ($) {
+
+            // init resizable
             $('.iframe-block').resizable();
+
+            // submit on click of a show type, submit the form
+            $('input[name="show"]').click(function () {
+                $(this).parents('form').submit();
+            });
+
         }(jQuery));
     </script>
 
