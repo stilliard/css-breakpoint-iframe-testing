@@ -16,7 +16,7 @@ function tmpCookieFile($remove=false)
 {
     static $ckfile;
     if ( ! $ckfile) {
-        $ckfile = tempnam ("/tmp", "CURLCOOKIE");
+        $ckfile = tempnam("/tmp", "CURLCOOKIE");
     }
     if ( ! $remove) {
         return $ckfile;
@@ -27,11 +27,12 @@ function tmpCookieFile($remove=false)
 function request($url)
 {
     $ckfile = tmpCookieFile();
-    $ch = curl_init ($url);
-    curl_setopt ($ch, CURLOPT_COOKIEJAR, $ckfile);
-    curl_setopt ($ch, CURLOPT_COOKIEFILE, $ckfile);
-    curl_setopt ($ch, CURLOPT_RETURNTRANSFER, true);
-    $output = curl_exec ($ch);
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; ResponsiveTestingTool/1.0; +http://responsive.stapps.io/)');
+    curl_setopt($ch, CURLOPT_COOKIEJAR, $ckfile);
+    curl_setopt($ch, CURLOPT_COOKIEFILE, $ckfile);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $output = curl_exec($ch);
     curl_close($ch);
     return $output;
 }
