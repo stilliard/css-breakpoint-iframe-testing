@@ -24,6 +24,11 @@ function tmpCookieFile($remove=false)
         unlink($ckfile); // remove tmp file
     }
 }
+function dd($var)
+{
+    var_dump($var);
+    exit;
+}
 function request($url)
 {
     $ckfile = tmpCookieFile();
@@ -36,6 +41,11 @@ function request($url)
     curl_setopt($ch, CURLOPT_MAXREDIRS, 3);
     curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 30);
     curl_setopt($ch, CURLOPT_TIMEOUT, 30);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+        'Cache-Control: no-cache',
+        'Keep-Alive: 300',
+        'Connection: close',
+    ));
     $output = curl_exec($ch);
     curl_close($ch);
     return $output;
