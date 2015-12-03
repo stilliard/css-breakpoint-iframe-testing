@@ -389,6 +389,12 @@ if ($html != '') {
                 });
 
                 $(document).keydown(function (e) {
+
+                    // don't run this inside the search field
+                    if (e.target.nodeName == 'INPUT') {
+                        return true;
+                    }
+
                     if (e.keyCode == 39) { // Right arrow 
                         slider.goToNextSlide();
                         return false;
