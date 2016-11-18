@@ -3,7 +3,7 @@
 function getUrl()
 {
     // default url
-    $url = 'http://blog.stapps.io/';
+    $url = 'https://blog.stapps.io/';
     // Posted valid URL?
     if (isset($_GET['url'])
         && is_string($_GET['url'])
@@ -33,7 +33,7 @@ function request($url)
 {
     $ckfile = tmpCookieFile();
     $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; ResponsiveTestingTool/1.0; +http://responsive.stapps.io/)');
+    curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (compatible; ResponsiveTestingTool/1.0; +https://responsive.stapps.io/)');
     curl_setopt($ch, CURLOPT_COOKIEJAR, $ckfile);
     curl_setopt($ch, CURLOPT_COOKIEFILE, $ckfile);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
